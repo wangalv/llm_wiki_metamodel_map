@@ -1,6 +1,6 @@
 # Profile plugins (advanced)
 
-**Most profiles don't need this page.** Creating and using a profile is covered in `PROFILE-GUIDE.md` and needs only `Schema/wiki-config.json`. Read on only if the configuration can't express what your domain needs and you want to add Python code.
+**This vault doesn't need this page.** Its rules come entirely from `Schema/wiki-config.json` and `scripts/profiles/togaf-core/togaf-core-profile.md`. Read on only if the configuration can't express what you need and you want to add Python code — for example a converter that turns a raw document format into a Markdown source note.
 
 A profile adapts the domain-agnostic core (`scripts/wiki_tool.py`) to one business domain, such as legislation, research papers or compliance policies.
 
