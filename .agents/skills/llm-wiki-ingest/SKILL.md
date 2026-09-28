@@ -27,17 +27,18 @@ Turn one or more Raw sources into Wiki notes, following `AGENTS.md`. Formats are
 4. **Plan, then confirm with the user if it's non-trivial.**
    - Make a table of the notes you'll create or update, with the type and reason for each.
    - Prefer updating existing notes over creating near-duplicates. Check titles and `aliases`.
-   - Only create an entity note if the source says something substantive about the entity.
+   - Only create a note if the source says something substantive about it — don't create one just because a name appears in passing.
+   - Follow "No representative sampling" in `scripts/profiles/togaf-core/togaf-core-profile.md`: if the source names several distinct instances of the same kind, that's several notes, not one.
 
 5. **Write the notes.**
-   - Start each note from `_templates/<kind>-note.md` (`topic`, `concept`, `entity` or `project`).
+   - Start each note from `_templates/<kind>-note.md`, using the kind `scripts/profiles/togaf-core/togaf-core-profile.md` says fits.
    - Fill all required frontmatter:
      - Exactly one tag for the note's kind
      - `topics` it belongs under
      - The source in `sources`, with `source_count` matching
    - Write a one-sentence summary right after the `# Heading`. Remove the template's guidance comments and any empty sections.
    - Cite claims inline: `([[source-stem]])`, or `([[source-stem#Heading]])` for a specific place.
-   - Link to related Wiki notes with wikilinks. Link each new concept or entity from at least one topic or concept note.
+   - Link to related Wiki notes with wikilinks, in a `## Related` section, labelling the connection in plain language (see the profile doc's "How connections are made"). Link each new note from at least one other note that gives it context, and set its `topics` to the relevant `domain` note(s).
    - Where sources disagree or leave gaps, add a `> [!question]` callout. Don't guess.
    - For a new note, set `status: seed` and `created`/`updated` to today.
    - When adding to an existing note, bump `updated`, and move `seed` → `growing`.
@@ -55,7 +56,7 @@ Turn one or more Raw sources into Wiki notes, following `AGENTS.md`. Formats are
    ```bash
    python3 scripts/wiki_tool.py log --title "ingest | <source title>" --details "Created …; updated …; skipped …"
    ```
-   For a long session, also write `Wiki/Logs/YYYY-MM-DD.md` from `_templates/log-note.md`.
+   (This vault has no `log` kind, so there's no detailed daily note beyond `Wiki/log.md`.)
 
 8. **Report** to the user: the notes you created or updated, any open questions you recorded, and any warnings. Commit only if the user asks.
 

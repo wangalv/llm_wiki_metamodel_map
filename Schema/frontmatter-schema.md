@@ -44,54 +44,41 @@ Agents never rewrite a source note. The one exception is flipping `Processed` fr
 
 ## Compiled notes: `Wiki/**/*.md`
 
-Templates:
-- `_templates/topic-note.md`
-- `_templates/concept-note.md`
-- `_templates/entity-note.md`
-- `_templates/project-note.md`
-- `_templates/log-note.md`
+Templates: `_templates/<kind>-note.md`, one per kind in `Schema/wiki-config.json` (e.g. `actor-note.md`, `business-capability-note.md`). Run `ls _templates/` for the current list.
 
 ```yaml
 ---
 tags:
-  - "concept"
+  - "actor"
 topics:
-  - "[[Large Language Models]]"
+  - "[[Financial Services Compliance]]"
 status: seed
-created: 2026-09-25
-updated: 2026-09-25
+created: 2026-09-28
+updated: 2026-09-28
 sources:
-  - "[[2017-06-12-attention-is-all-you-need]]"
+  - "[[2026-09-27-modernizing-kyc-aws-serverless]]"
 source_count: 1
-aliases:
-  - "Scaled dot-product attention"
+aliases: []
+classification_basis: "One sentence, quoting or closely paraphrasing the source, saying why this note is this kind and not another."
 ---
 ```
 
 | Field | Required | Notes |
 |---|---|---|
 | `tags` | yes | Exactly one tag from the allowed list below. It must match the note's folder. |
-| `topics` | yes (may be `[]`) | Wikilinks to the `Wiki/Topics/` notes this note belongs under. Topic and log notes normally leave it empty. |
+| `topics` | yes (may be `[]`) | Wikilinks to the notes of the `topics_kind` kind this note belongs under — `Wiki/Domains/` in this vault. |
 | `status` | yes | `seed` \| `growing` \| `stable` \| `stale` (see below) |
 | `created` | yes | Date the note was created |
 | `updated` | yes | Date of the last change; must be on or after `created` |
-| `sources` | yes | Wikilinks to `Raw/Sources/` notes. Topic, concept, entity and project notes need at least one. Every source cited in the body must be listed here. |
+| `sources` | yes | Wikilinks to `Raw/Sources/` notes. Every kind in this vault requires at least one (`requires_sources: true`). Every source cited in the body must be listed here. |
 | `source_count` | yes | Must equal the number of entries in `sources` |
 | `aliases` | yes (may be `[]`) | Other names, used for search, link suggestions and duplicate detection |
 
 ### Allowed compiled-note tags
 
-The kinds, their folders and their behaviour are configured in `Schema/wiki-config.json` (`kinds`). A profile may add more kinds. The defaults are:
+The kinds, their folders and their behaviour are configured in `Schema/wiki-config.json` (`kinds`) and listed in the generated `Schema/field-reference.md`: the 23 TOGAF Content Metamodel core types, plus `domain` — the grouping kind `topics` points to, not part of the metamodel itself. See `scripts/profiles/togaf-core/togaf-core-profile.md` for what each type means and when to use it.
 
-| Tag | Folder |
-|---|---|
-| `topic` | `Wiki/Topics/` |
-| `concept` | `Wiki/Concepts/` |
-| `entity` | `Wiki/Entities/` |
-| `project` | `Wiki/Projects/` |
-| `log` | `Wiki/Logs/` |
-
-Don't add any other tags to compiled notes. Use `topics` for grouping. The allowed `status` values and the required fields also come from `wiki-config.json`. The tables here show the defaults.
+Don't add any other tags to compiled notes. Use `topics` for grouping. The allowed `status` values and the required fields also come from `wiki-config.json`.
 
 ### Status
 
@@ -104,9 +91,7 @@ Don't add any other tags to compiled notes. Use `topics` for grouping. The allow
 
 ### Log notes
 
-`Wiki/log.md` is the short append-only activity log, written by `python3 scripts/wiki_tool.py log`. It has no frontmatter and isn't a compiled note.
-
-Detailed daily log notes in `Wiki/Logs/` use the same frontmatter as other compiled notes, with `tags: ["log"]`. They're named `Wiki/Logs/YYYY-MM-DD.md`, and their `sources` field lists every Raw source read that day (it may be `[]`). The body has one `##` section per operation. See `Schema/workflow-examples.md`.
+`Wiki/log.md` is the short append-only activity log, written by `python3 scripts/wiki_tool.py log`. It has no frontmatter and isn't a compiled note. This vault has no `log` kind, so there are no detailed per-day log notes — `Wiki/log.md` is the only log.
 
 ### Body
 
@@ -146,7 +131,7 @@ When sources disagree, or don't answer something important, record it instead of
 `build` generates this file: one JSON object per line, one line per note in `Wiki/`. Never hand-edit it.
 
 ```json
-{"path": "Wiki/Concepts/Self-Attention.md", "title": "Self-Attention", "tag": "concept", "summary": "A layer where each token computes a weighted mix of all tokens in the sequence.", "topics": ["Wiki/Topics/Large Language Models.md"], "aliases": ["Scaled dot-product attention"], "status": "seed", "sources": ["Raw/Sources/2017-06-12-attention-is-all-you-need.md"], "source_count": 1, "links": ["Wiki/Concepts/Transformer.md"], "updated": "2026-09-25"}
+{"path": "Wiki/Actors/Customer.md", "title": "Customer", "tag": "actor", "summary": "The individual or entity going through the KYC onboarding and verification journey.", "topics": ["Wiki/Domains/Financial Services Compliance.md"], "aliases": [], "status": "seed", "sources": ["Raw/Sources/2026-09-27-modernizing-kyc-aws-serverless.md"], "source_count": 1, "links": ["Wiki/Data Entities/KYC Decision.md"], "updated": "2026-09-28"}
 ```
 
 | Key | Content |

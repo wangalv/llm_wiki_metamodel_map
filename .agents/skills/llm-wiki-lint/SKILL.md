@@ -28,7 +28,7 @@ Run the checks in `Schema/lint-checklist.md`, then report and fix the problems. 
    - Missing `updated`, or a `source_count` that doesn't match `sources`
    - `Processed` out of sync with whether any Wiki note cites the source (S9)
    - Out-of-date `catalog.jsonl` (re-run `build`)
-   - Orphans that clearly belong under an existing topic
+   - Orphans that clearly belong linked from an existing note
    - Broken links caused by a rename you can find
 
 4. **Ask the user about anything else.** Especially:

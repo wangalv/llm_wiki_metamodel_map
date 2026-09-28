@@ -14,19 +14,19 @@ Severity:
 |---|---|---|
 | F1 | Every `.md` file in `Raw/Sources/` and `Wiki/` has valid YAML frontmatter | error |
 | F2 | All required fields are present: the source-note fields in `Raw/Sources/`, the compiled-note fields in `Wiki/` (`Schema/frontmatter-schema.md`) | error |
-| F3 | A compiled note has exactly one tag, from `topic`, `concept`, `entity`, `project`, `log`, and it matches the note's folder. A source note's `tags` include `source`. | error |
+| F3 | A compiled note has exactly one tag, matching one of the kinds in `Schema/wiki-config.json`, and it matches the note's folder. A source note's `tags` include `source`. | error |
 | F4 | `source_count` equals the number of entries in `sources` | error |
 | F5 | Dates are `YYYY-MM-DD`, and `updated` is on or after `created` | error |
 | F6 | `status` is one of `seed`, `growing`, `stable`, `stale`. `Processed` is `true` or `false`. | error |
 | F7 | The first line after the `# Heading` is a one-sentence summary of 200 characters or fewer | warn |
-| F8 | Every `topics` entry links to a note in `Wiki/Topics/` | error |
+| F8 | Every `topics` entry links to a note of the kind named in `topics_kind` (`Wiki/Domains/` in this vault) | error |
 | F9 | Typed fields (`Schema/field-reference.md`) have the declared type, allowed value, pattern and link target | error |
 
 ## 2. Sources and citations (`lint` S1–S5, `source-lint` S6–S9)
 
 | # | Check | Severity |
 |---|---|---|
-| S1 | Every topic, concept, entity and project note has at least one entry in `sources` | error |
+| S1 | Every note of a kind with `requires_sources: true` (all TOGAF kinds here) has at least one entry in `sources` | error |
 | S2 | Every `sources` entry resolves to an existing file in `Raw/Sources/` | error |
 | S3 | Every inline citation `[[...]]` pointing at a Raw source resolves, including the `#heading` if one is given | error |
 | S4 | Every source cited in the body is listed in `sources` | error |
@@ -43,7 +43,7 @@ Severity:
 |---|---|---|
 | L1 | No broken wikilinks in `Wiki/` | error |
 | L2 | Every Markdown filename is unique across the vault | error |
-| L3 | Every concept, entity and project note is linked from at least one other Wiki note (no orphans) | warn |
+| L3 | Every note of a kind with `orphan_check: true` (all TOGAF kinds here) is linked from at least one other Wiki note (no orphans) | warn |
 | L4 | Every Raw source is cited by at least one Wiki note, i.e. it has been ingested (see also S9) | warn |
 | L5 | No Wiki-style compiled content outside `Wiki/` | warn |
 
@@ -78,7 +78,7 @@ Severity:
 ## 7. Configured and profile rules
 
 - **Declarative rules:** the rules listed under `rules` in `Schema/wiki-config.json`, taken from the rule library (`Schema/command-reference.md#rules`). They report under their own IDs, and `Schema/field-reference.md` lists the active ones.
-- **Python rules:** the active profile (`Schema/wiki-config.json` → `profile`) may add its own checks through `scripts/profiles/<profile>/rules.py`. Their codes use a profile prefix, e.g. `LG1` for legislation, and are documented in `scripts/profiles/<profile>/<profile>-profile.md`. The `default` profile adds none.
+- **Python rules:** a profile may add its own checks through `scripts/profiles/<profile>/rules.py`, with codes using a profile prefix (this vault has none — its one rule, `TM1`, is declarative, listed under `rules` above).
 
 ## Before committing
 

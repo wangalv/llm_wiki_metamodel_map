@@ -22,7 +22,7 @@ Change the structure of `Wiki/` while keeping every claim cited and every link w
 4. Point every `[[Other]]` link at `[[Kept]]`, then delete the other note.
 
 ### Split an oversized note
-1. Pick sections that stand on their own as a concept or entity.
+1. Pick sections that stand on their own as a single note of one kind.
 2. Move each one into a new note started from its `_templates/<kind>-note.md`. Its `sources` and `source_count` should cover only the sources cited in the moved text.
 3. In the original note, leave a one-line summary and a link in place of each moved section.
 
@@ -32,7 +32,7 @@ Change the structure of `Wiki/` while keeping every claim cited and every link w
 3. Update every `[[Old Name]]` and `[[Old Name#…]]` link. Keep display text: `[[New Name|Old Name]]`.
 
 ### Re-home a note filed under the wrong type
-Move the note to the right `Wiki/` subfolder, and change its single tag to match (`topic`, `concept`, `entity` or `project`). The filename stays the same, so links still work.
+Move the note to the right `Wiki/` subfolder, and change its single tag to match the kind (see `Schema/wiki-config.json` and `scripts/profiles/togaf-core/togaf-core-profile.md`). Add or remove kind-specific fields (e.g. `classification_basis`) as the new kind requires. The filename stays the same, so links still work.
 
 ### Refresh a stale note
 1. Re-read the note's cited sources, plus any newer Raw sources on the same subject (find them via the catalog).

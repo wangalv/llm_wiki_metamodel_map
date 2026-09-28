@@ -69,7 +69,7 @@ Validates compiled Wiki notes:
 
 | Area | Codes |
 |---|---|
-| Frontmatter | F1–F8. Required fields; exactly one allowed tag (`topic`, `concept`, `entity`, `project`, `log`) that matches the folder; `source_count` = number of `sources`; dates; status; summary; `topics` point at `Wiki/Topics/`. |
+| Frontmatter | F1–F8. Required fields; exactly one allowed tag (a kind from `Schema/wiki-config.json`) that matches the folder; `source_count` = number of `sources`; dates; status; summary; `topics` point at the `topics_kind` kind (`domain` in this vault). |
 | Sources and citations | S1–S5. At least one source (except logs); every `sources` entry resolves under `Raw/Sources/`; cited headings and blocks exist; cited sources are listed; listed sources are cited. |
 | Links | L1 broken links, L2 duplicate filenames, L3 orphans, L5 notes outside a subfolder |
 | Naming | N2 forbidden characters, N3 log filenames, N4 likely duplicates (shared title or alias) |
@@ -167,7 +167,7 @@ Run `build` first so the catalog is current. This is the first step of `llm-wiki
 python3 scripts/wiki_tool.py log --title "ingest | Attention Is All You Need" --details "Created [[Self-Attention]], updated [[Large Language Models]]."
 ```
 
-Appends `## [YYYY-MM-DD HH:MM] <title>` and the details to `Wiki/log.md`, creating the file if needed. `Wiki/log.md` is the short chronological activity log. For a detailed record of a long session, write a daily note in `Wiki/Logs/` from `_templates/log-note.md`.
+Appends `## [YYYY-MM-DD HH:MM] <title>` and the details to `Wiki/log.md`, creating the file if needed. `Wiki/log.md` is the short chronological activity log. (A profile with a `log` kind can also keep detailed daily notes in `Wiki/Logs/`; this vault has no `log` kind, so `Wiki/log.md` is the only log.)
 
 Suggested title prefixes: `ingest |`, `query |`, `lint |`, `maintain |`.
 

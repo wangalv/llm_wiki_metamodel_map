@@ -18,11 +18,9 @@ Obsidian resolves `[[wikilinks]]` by **filename**. For that reason, every Markdo
 
 | Kind | Pattern | Example |
 |---|---|---|
-| Topic | `Wiki/Topics/Title Case.md` | `Large Language Models.md` |
-| Concept | `Wiki/Concepts/Title Case.md` | `Self-Attention.md` |
-| Entity | `Wiki/Entities/Title Case.md` | `Andrej Karpathy.md`, `Obsidian.md` |
-| Project | `Wiki/Projects/Title Case.md` | `Personal Website Redesign.md` |
-| Log | `Wiki/Logs/YYYY-MM-DD.md` | `2026-09-25.md` |
+| Compiled note (any TOGAF kind) | `Wiki/<Kind>/Title Case.md` | `Wiki/Actors/Customer.md`, `Wiki/Business Capabilities/Know Your Customer (KYC) Validation.md` |
+
+See `Schema/field-reference.md` for the current kind list and their folders, and `scripts/profiles/togaf-core/togaf-core-profile.md` for which kind to use.
 
 - The filename is the note's title. Use the most common name for the thing, and put other names in `aliases`.
 - Use singular nouns for concepts (`Embedding`, not `Embeddings`), unless the plural is the usual name.
@@ -42,7 +40,7 @@ Obsidian resolves `[[wikilinks]]` by **filename**. For that reason, every Markdo
 
 ## Tags
 
-- Compiled notes have exactly one tag, which marks the note's kind: `topic`, `concept`, `entity`, `project` or `log`. It must match the folder.
+- Compiled notes have exactly one tag, which marks the note's kind — one of the kinds in `Schema/wiki-config.json`. It must match the folder.
 - Source notes carry `source`. Extra tags on source notes are allowed, in lowercase kebab-case, e.g. `ml/architecture`.
 - Group compiled notes by subject with `topics: ["[[Topic]]"]`, not with tags.
 
