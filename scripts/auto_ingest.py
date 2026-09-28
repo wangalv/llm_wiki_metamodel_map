@@ -268,6 +268,11 @@ def _post_json(url: str, headers: dict, body: dict, timeout: int) -> dict:
     except socket.timeout:
         die(f"{url} did not respond within {timeout}s. A large local model on a slow machine can "
             f"legitimately take longer than the default — pass a bigger --timeout (seconds).")
+    except OSError as e:
+        die(f"connection to {url} was dropped before it finished responding ({e}). This usually means "
+            f"a proxy or gateway in front of the API closed a long-idle connection, not that {timeout}s "
+            f"wasn't enough — a bigger --timeout is unlikely to help. Try a smaller source to see if it "
+            f"completes, or check whether the provider offers a streaming endpoint.")
 
 
 def call_anthropic(prompt: str, model: str, api_key_env: str, max_tokens: int, timeout: int) -> list:
