@@ -48,7 +48,7 @@ This vault ships empty: no sources ingested yet, ready for a first real document
 ├── _templates/          ← note templates (generated from wiki-config.json)
 ├── .agents/skills/      ← agent skills: llm-wiki-ingest, llm-wiki-query, llm-wiki-lint, llm-wiki-maintain, and Obsidian-format skills
 ├── .githooks/           ← pre-commit hook (build, lint, source-lint, public audit)
-├── scripts/             ← wiki_tool.py (the engine), audit_public.py, install_hooks.sh, profiles/togaf-core/
+├── scripts/             ← wiki_tool.py (the engine), auto_ingest.py, audit_public.py, install_hooks.sh, profiles/togaf-core/
 └── AGENTS.md            ← rules for AI agents
 ```
 
@@ -74,6 +74,18 @@ python3 scripts/wiki_tool.py log --title "ingest | <title>" --details "<notes>"
 4. Every new note starts `status: seed`. After ingest, run `build`, `lint`, `source-scan --update --accept-covered`, `source-lint`, then `log`.
 5. Open `Wiki/Generated/Review Queue.md`: one row per note pending review, with its type and `classification_basis`. For each, confirm it (`status: stable`, or `growing` if more sources are still expected), fix its type or fields, merge it into an existing note if it's a duplicate, or delete it.
 6. Commit only once the queue is clear, or you've consciously left something in `seed`.
+
+## Run an automated ingest
+
+Step 3 above can also be done without an interactive agent, by calling an LLM API directly from the command line:
+
+```bash
+export ANTHROPIC_API_KEY=...   # or OPENAI_API_KEY / another provider's key
+python3 scripts/auto_ingest.py Raw/Sources/<source>.md --dry-run   # preview first
+python3 scripts/auto_ingest.py Raw/Sources/<source>.md            # then actually write
+```
+
+One API call, no auto-fix loop: the model returns each note's type, title, topics and `classification_basis`; the script fills in every mechanical field (`tags`, `status: seed`, `created`, `updated`, `sources`, `source_count`) itself from `Schema/wiki-config.json`, never overwrites an existing note, and then runs steps 4 (`build`/`lint`/`source-scan`/`log`) for you. Step 5 (reviewing the queue) is still a person's job. Works with any OpenAI-compatible endpoint too — see `Schema/command-reference.md`.
 
 ## Undo a bad ingest
 

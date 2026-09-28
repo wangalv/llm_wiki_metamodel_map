@@ -200,6 +200,21 @@ Scans everything git would publish: tracked files, plus untracked files that are
 
 To accept a known false positive, add `audit-public: allow` to that line.
 
+## auto_ingest.py
+
+```bash
+export ANTHROPIC_API_KEY=...   # or OPENAI_API_KEY / another provider's key
+python3 scripts/auto_ingest.py Raw/Sources/<source>.md [--provider anthropic|openai|openai-compatible] [--model <name>] [--base-url <url>] [--api-key-env <VAR>] [--dry-run] [--skip-followup]
+```
+
+Calls an external LLM API to draft compiled notes from one Raw source, for running an ingest from the command line without an interactive agent session. A separate script from `wiki_tool.py`, which stays a deterministic tool that never calls a network or makes a domain judgment itself.
+
+- **Multi-provider:** `--provider anthropic` (default) uses Claude's Messages API with a tool call to get structured output; `--provider openai` and `--provider openai-compatible` use the Chat Completions API with `response_format: json_object` — the latter takes any OpenAI-compatible endpoint via `--base-url`. The API key always comes from an environment variable (`ANTHROPIC_API_KEY` / `OPENAI_API_KEY` by default, or `--api-key-env`), never from a file or the command line.
+- **Single-shot:** one API call, no auto-fix loop. The model returns only the fields a person would judge — kind, title, topics, aliases, summary, body, and this kind's extra fields (e.g. `classification_basis`) — read from `Schema/wiki-config.json` and included in the prompt. This script derives every mechanical field itself (`tags`, `status: seed`, `created`, `updated`, `sources`, `source_count`), so the model can't drift from what the engine expects. Quality is caught the same way as any other ingest: everything lands at `status: seed`, for `Wiki/Generated/Review Queue.md`.
+- **Never overwrites:** if a note the model proposes already exists on disk, that note is skipped and reported; existing notes are only ever changed by hand or by another skill.
+- After writing, it runs `build`, `lint`, `source-scan --update --accept-covered` and `log` itself (skip with `--skip-followup`) and prints the result, the same steps a human-driven ingest ends with.
+- `--dry-run` prints what would be written and stops before writing anything or running the follow-up commands.
+
 ## Git hooks
 
 ```bash
