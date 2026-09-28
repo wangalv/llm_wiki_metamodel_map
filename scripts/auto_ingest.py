@@ -25,10 +25,11 @@ Usage:
 
     python3 scripts/auto_ingest.py Raw/Sources/...md --dry-run   # preview, write nothing
 
-Instead of exporting the key each time, copy .env.example to .env at the vault
-root and fill in your own key(s) there — this script loads it automatically
-(a real shell-exported variable always wins over .env). .env is gitignored and
-never read by any other tool here; nothing in this vault writes to it.
+Instead of exporting the key each time, put it in a .env file at the vault
+root (e.g. ANTHROPIC_API_KEY=... / OPENAI_API_KEY=...) — this script loads it
+automatically (a real shell-exported variable always wins over .env). .env is
+gitignored and never read by any other tool here; nothing in this vault
+writes to it.
 
 What it does:
   - Reads AGENTS.md, the ingest skill, the active profile's spec, and
@@ -95,8 +96,8 @@ def load_dotenv(root: Path) -> None:
     """Load KEY=VALUE lines from a .env file at the vault root into os.environ.
 
     A variable already set in the real environment always wins over .env — this
-    only fills in what isn't already there. .env is gitignored (see .env.example)
-    and nothing else in this vault reads or writes it.
+    only fills in what isn't already there. .env is gitignored and nothing else
+    in this vault reads or writes it.
     """
     path = root / ".env"
     if not path.is_file():
