@@ -1,5 +1,9 @@
-# Profile: togaf-core 
+# Profile: togaf-core
 
+> **Trademark notice:** TOGAF® is a registered trademark of The Open Group in the United States and other
+> countries. This profile is an independent, unofficial implementation of publicly described TOGAF 9.2 Content
+> Metamodel concepts — the type table below is written from general knowledge, not quoted from the standard. It
+> is not affiliated with, endorsed by, or certified by The Open Group.
 
 ## The purpose of this profile
 

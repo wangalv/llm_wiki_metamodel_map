@@ -2,6 +2,8 @@
 
 An Obsidian vault that an LLM agent turns into a cited knowledge base: it reads organisational technical documents (architecture descriptions, design documents, data dictionaries) and compiles them into notes structured by the TOGAF 9.2 Content Metamodel's 23 core objects, plus a `domain` grouping kind the engine itself requires.
 
+**Why this exists.** Architecture knowledge usually lives scattered across design docs, PDFs, Confluence pages and Slack threads — hard to search, and even harder to trace a claim back to where it came from. This vault compiles that material into notes structured by the TOGAF 9.2 Content Metamodel, so you can ask "which components depend on this data entity" or "what capabilities does this system provide" and get an answer that links straight back to the exact heading in the source document, not a paraphrase you have to trust. *(TOGAF® is a registered trademark of The Open Group; see the trademark notice at the bottom of this README.)*
+
 Three rules hold throughout (the full rules are in `AGENTS.md`):
 - `Raw/` is source material. The agent reads it but never rewrites it.
 - Compiled knowledge goes only in `Wiki/`.
@@ -147,3 +149,11 @@ The pre-commit hook runs `build`, `lint`, `source-lint` and `audit_public.py` (c
 ## What's not committed
 
 `.gitignore` keeps these out: per-device Obsidian state (`workspace.json`, `graph.json`, cache, `.trash/`), plugin `data.json` files, and secrets (`.env`, `*.key`, `*.pem`).
+
+## License
+
+MIT — see [LICENSE](LICENSE).
+
+## Trademark notice
+
+TOGAF® is a registered trademark of The Open Group in the United States and other countries. This project is an independent, unofficial implementation of publicly described TOGAF 9.2 Content Metamodel concepts, written from general knowledge rather than quoted from the standard. It is not affiliated with, endorsed by, or certified by The Open Group.
