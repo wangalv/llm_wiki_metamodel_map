@@ -130,6 +130,20 @@ Shows, for each Raw source, the compiled notes that cover it, and which sources 
 | `--uncovered` | List only uncovered sources |
 | `--json` | Print the result as JSON |
 
+## rollback-source
+
+```bash
+python3 scripts/wiki_tool.py rollback-source <source> [--dry-run] [--delete-source]
+```
+
+Removes compiled notes created from one Raw source, for when a source turns out to have been a mistake (wrong document, bad ingest) and you want it fully undone rather than fixed note by note.
+
+- Only removes a note if that source is the **only** entry in its `sources` field. A note that also cites another source is left alone and listed, since there's no safe way to split its content back apart — merge or edit it by hand instead.
+- `--dry-run` lists what would happen and changes nothing.
+- `--delete-source` also deletes the source file itself (default: keep it, e.g. to re-ingest later with corrections).
+- Appends a `rollback` entry to `Wiki/log.md` — it never deletes or rewrites earlier log entries, so the record shows the ingest happened and was later undone, not that it never happened.
+- Doesn't rewrite links: run `build` and `lint` afterwards. Any wikilink left pointing at a removed note shows up as `L1`, for a person or `llm-wiki-maintain` to resolve.
+
 ## search-catalog
 
 ```bash

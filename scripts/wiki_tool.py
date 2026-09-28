@@ -2284,6 +2284,58 @@ def cmd_source_coverage(v: Vault, args) -> int:
     return 0
 
 
+def cmd_rollback_source(v: Vault, args) -> int:
+    """Remove compiled notes that cite only one Raw source, after that source is deemed a mistake.
+
+    Only removes a note if this is the *only* source in its `sources` field. A note that also
+    cites another source is left in place and reported, since there's no safe way to split its
+    content back apart. This never rewrites links left pointing at a removed note — run `build`
+    and `lint` afterwards and let L1 surface them for a person or `llm-wiki-maintain` to resolve.
+    """
+    src = v.resolve(args.source) or args.source
+    if not src.startswith("Raw/Sources/") or not v.abs(src).is_file():
+        print(f"rollback-source: {args.source!r} is not a source in Raw/Sources/", file=sys.stderr)
+        return 2
+
+    notes = coverage(v).get(src, [])
+    safe = [np for np in notes if len(v.fm_link_paths(v.note(np), "sources")) == 1]
+    blocked = [np for np in notes if np not in safe]
+
+    print(f"rollback-source: {src}")
+    print(f"  {len(safe)} note(s) cite only this source (removable):")
+    for np in safe:
+        print(f"    {np}")
+    if blocked:
+        print(f"  {len(blocked)} note(s) also cite another source (left in place, review by hand):")
+        for np in blocked:
+            print(f"    {np}")
+
+    if args.dry_run:
+        print("rollback-source: --dry-run, nothing changed")
+        return 0
+
+    for np in safe:
+        v.abs(np).unlink()
+    if args.delete_source:
+        v.abs(src).unlink()
+        print(f"  deleted source: {src}")
+
+    stamp = dt.datetime.now().strftime("%Y-%m-%d %H:%M")
+    detail = [f"Removed: {np}" for np in safe]
+    if args.delete_source:
+        detail.append(f"Deleted source: {src}")
+    if blocked:
+        detail.append("Left in place (cite another source too): " + ", ".join(blocked))
+    path = v.abs(WIKI_LOG)
+    existing = path.read_text(encoding="utf-8") if path.exists() else LOG_HEADER
+    if not existing.endswith("\n"):
+        existing += "\n"
+    path.write_text(existing + f"\n## [{stamp}] rollback | {src}\n\n" + "\n".join(detail) + "\n", encoding="utf-8")
+    print(f"appended rollback entry to {WIKI_LOG}")
+    print("Now run `build` and `lint` — any links left pointing at a removed note will show up as L1.")
+    return 0
+
+
 # ---------------------------------------------------------------------------
 # search-catalog
 # ---------------------------------------------------------------------------
@@ -2546,6 +2598,13 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--uncovered", action="store_true", help="only list uncovered sources")
     p.add_argument("--json", action="store_true")
     p.set_defaults(func=cmd_source_coverage)
+
+    p = sub.add_parser("rollback-source",
+                        help="remove compiled notes that cite only one Raw source (leaves multi-source notes alone)")
+    p.add_argument("source", help="a Raw/Sources/ file, by path or unique filename")
+    p.add_argument("--delete-source", action="store_true", help="also delete the source file itself")
+    p.add_argument("--dry-run", action="store_true", help="list what would happen; change nothing")
+    p.set_defaults(func=cmd_rollback_source)
 
     p = sub.add_parser("search-catalog", help="search compiled notes through the catalog")
     p.add_argument("--query", required=True)
