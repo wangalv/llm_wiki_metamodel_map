@@ -58,6 +58,7 @@ import argparse
 import json
 import os
 import re
+import socket
 import subprocess
 import sys
 import urllib.error
@@ -264,6 +265,9 @@ def _post_json(url: str, headers: dict, body: dict, timeout: int) -> dict:
         die(f"{url} returned HTTP {e.code}:\n{detail[:4000]}")
     except urllib.error.URLError as e:
         die(f"could not reach {url}: {e.reason}")
+    except socket.timeout:
+        die(f"{url} did not respond within {timeout}s. A large local model on a slow machine can "
+            f"legitimately take longer than the default — pass a bigger --timeout (seconds).")
 
 
 def call_anthropic(prompt: str, model: str, api_key_env: str, max_tokens: int, timeout: int) -> list:
