@@ -33,11 +33,15 @@ Then read `scripts/profiles/togaf-core/togaf-core-profile.md`, and see "Add and 
 
 ## Status
 
-This vault ships with one worked example already ingested: a condensed, own-words stand-in for a real AWS
-architecture blog post (see `Raw/Sources/2026-09-28-modernizing-kyc-aws-serverless.md` — the `Reference` field
-links to the original; the full article isn't reproduced here), compiled into 49 notes across 11 of the 23
-TOGAF types. Browse `Wiki/Generated/Catalogue.md` to see the result, or just add your own document — the
-existing example doesn't need to be removed first, and `auto_ingest.py`/the ingest skill will never overwrite it.
+This vault ships empty: no sources ingested yet, ready for a first real document. To see what an ingested
+result actually looks like first, browse `examples/kyc-aws-serverless/` — a static, browse-only snapshot of one
+real ingest (49 notes across 11 TOGAF types), included for reference only. It isn't part of the vault itself — `build`/`lint`/`doctor` only ever count notes rooted at the top-level
+`Raw/`/`Wiki/`, never anything under `examples/` — so it's safe to leave in place while you ingest your own
+documents into `Raw/`/`Wiki/` above. Its note titles don't collide with anything at the top level today, since
+the top level starts empty — but Obsidian and `lint`'s L2 rule both require every filename to be unique across
+the *whole* vault, `examples/` included. If your own ingest ever produces a note with the same title as one of
+the 49 here (e.g. another "Amazon Bedrock"), rename one of them — delete `examples/kyc-aws-serverless/` entirely
+if that gets tedious.
 
 ## What you need
 
