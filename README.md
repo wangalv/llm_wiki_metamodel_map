@@ -33,7 +33,11 @@ Then read `scripts/profiles/togaf-core/togaf-core-profile.md`, and see "Add and 
 
 ## Status
 
-This vault ships empty: no sources ingested yet, ready for a first real document.
+This vault ships with one worked example already ingested: a condensed, own-words stand-in for a real AWS
+architecture blog post (see `Raw/Sources/2026-09-28-modernizing-kyc-aws-serverless.md` — the `Reference` field
+links to the original; the full article isn't reproduced here), compiled into 49 notes across 11 of the 23
+TOGAF types. Browse `Wiki/Generated/Catalogue.md` to see the result, or just add your own document — the
+existing example doesn't need to be removed first, and `auto_ingest.py`/the ingest skill will never overwrite it.
 
 ## What you need
 
