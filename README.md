@@ -9,6 +9,16 @@ Three rules hold throughout (the full rules are in `AGENTS.md`):
 
 **Read `scripts/profiles/togaf-core/togaf-core-profile.md` before ingesting anything.** It defines every note type (what it means, when to use it, what to record), how notes link to each other, and a "no representative sampling" rule: if a document names five distinct instances of the same type, that's five notes, not one.
 
+## Quick start
+
+```bash
+git clone https://github.com/wangalv/llm_wiki_metamodel_map.git
+cd llm_wiki_metamodel_map
+python3 scripts/wiki_tool.py doctor
+```
+
+Then read `scripts/profiles/togaf-core/togaf-core-profile.md`, and see "Add and ingest a document" below. Opening the folder in Obsidian is optional, and only needed to browse the result.
+
 ## Status
 
 This vault ships empty: no sources ingested yet, ready for a first real document.
@@ -64,6 +74,15 @@ python3 scripts/wiki_tool.py log --title "ingest | <title>" --details "<notes>"
 4. Every new note starts `status: seed`. After ingest, run `build`, `lint`, `source-scan --update --accept-covered`, `source-lint`, then `log`.
 5. Open `Wiki/Generated/Review Queue.md`: one row per note pending review, with its type and `classification_basis`. For each, confirm it (`status: stable`, or `growing` if more sources are still expected), fix its type or fields, merge it into an existing note if it's a duplicate, or delete it.
 6. Commit only once the queue is clear, or you've consciously left something in `seed`.
+
+## Undo a bad ingest
+
+```bash
+python3 scripts/wiki_tool.py rollback-source <source> --dry-run   # preview first
+python3 scripts/wiki_tool.py rollback-source <source>             # then actually remove
+```
+
+Removes every compiled note whose only source is the given one. A note that also cites another source is left alone and listed, since its content can't be safely split back apart — merge or edit it by hand instead. Add `--delete-source` to also remove the Raw file. This appends a `rollback` entry to `Wiki/log.md` rather than erasing the original ingest entry, and doesn't rewrite links — run `build` and `lint` afterwards and let `L1` surface anything left dangling. Full details in `Schema/command-reference.md`.
 
 ## Ask questions
 
