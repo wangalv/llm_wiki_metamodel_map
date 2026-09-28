@@ -85,6 +85,8 @@ python3 scripts/auto_ingest.py Raw/Sources/<source>.md --dry-run   # preview fir
 python3 scripts/auto_ingest.py Raw/Sources/<source>.md            # then actually write
 ```
 
+Or skip the `export`: copy `.env.example` to `.env` and put your key(s) there — it's loaded automatically and gitignored.
+
 One API call, no auto-fix loop: the model returns each note's type, title, topics and `classification_basis`; the script fills in every mechanical field (`tags`, `status: seed`, `created`, `updated`, `sources`, `source_count`) itself from `Schema/wiki-config.json`, never overwrites an existing note, and then runs steps 4 (`build`/`lint`/`source-scan`/`log`) for you. Step 5 (reviewing the queue) is still a person's job. Works with any OpenAI-compatible endpoint too — see `Schema/command-reference.md`.
 
 ## Undo a bad ingest

@@ -25,6 +25,11 @@ Usage:
 
     python3 scripts/auto_ingest.py Raw/Sources/...md --dry-run   # preview, write nothing
 
+Instead of exporting the key each time, copy .env.example to .env at the vault
+root and fill in your own key(s) there — this script loads it automatically
+(a real shell-exported variable always wins over .env). .env is gitignored and
+never read by any other tool here; nothing in this vault writes to it.
+
 What it does:
   - Reads AGENTS.md, the ingest skill, the active profile's spec, and
     Schema/field-reference.md (generated from Schema/wiki-config.json), plus the
@@ -84,6 +89,32 @@ def die(message: str, code: int = 1) -> "NoReturn":
 
 def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8") if path.is_file() else ""
+
+
+def load_dotenv(root: Path) -> None:
+    """Load KEY=VALUE lines from a .env file at the vault root into os.environ.
+
+    A variable already set in the real environment always wins over .env — this
+    only fills in what isn't already there. .env is gitignored (see .env.example)
+    and nothing else in this vault reads or writes it.
+    """
+    path = root / ".env"
+    if not path.is_file():
+        return
+    for lineno, raw_line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if "=" not in line:
+            print(f"auto_ingest.py: .env:{lineno}: ignoring line without '=': {raw_line!r}", file=sys.stderr)
+            continue
+        key, _, value = line.partition("=")
+        key = key.strip()
+        value = value.strip()
+        if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
+            value = value[1:-1]
+        if key and key not in os.environ:
+            os.environ[key] = value
 
 
 # ---------------------------------------------------------------------------
@@ -403,6 +434,7 @@ def main(argv: list[str] | None = None) -> int:
     args = p.parse_args(argv)
 
     root = args.root.resolve()
+    load_dotenv(root)
     try:
         v = core.Vault(root)
     except core.ConfigError as e:
