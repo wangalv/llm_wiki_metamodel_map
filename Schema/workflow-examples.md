@@ -1,61 +1,69 @@
 # Workflow Examples
 
-These are worked examples of the four workflows. The source and notes are illustrative; the file formats follow `Schema/frontmatter-schema.md`.
+These are worked examples of the four workflows, using this vault's own domain (TOGAF Content Metamodel notes compiled from architecture documents). The source and notes are illustrative; the file formats follow `Schema/frontmatter-schema.md`, and the note types follow `scripts/profiles/togaf-core/togaf-core-profile.md`.
 
 ---
 
 ## 1. Ingest a source (`llm-wiki-ingest`)
 
-**Person:** "Ingest the attention paper I just added."
+**Person:** "Ingest the KYC architecture blog post I just added."
 
-**Step 1. Find the source.** Assume it's `Raw/Sources/2017-06-12-attention-is-all-you-need.md`, with `Processed: false`, and with the PDF embedded as `![[2017-06-12-attention-is-all-you-need.pdf]]`.
+**Step 1. Find the source.** Assume it's `Raw/Sources/2026-09-27-modernizing-kyc-aws-serverless.md`, with `Processed: false`.
 
 **Step 2. Check the catalog first.**
 
 ```bash
-python3 scripts/wiki_tool.py search-catalog --query "attention"
-python3 scripts/wiki_tool.py search-catalog --query "transformer"
+python3 scripts/wiki_tool.py search-catalog --query "KYC"
+python3 scripts/wiki_tool.py search-catalog --query "sub-agent"
 ```
 
-Suppose this finds `Wiki/Topics/Large Language Models.md`, but no `Transformer` or `Self-Attention` note.
+Suppose this vault is empty (first ingest) — nothing found yet.
 
-**Step 3. Read the source.** Read it, and the PDF if needed. Note the claims worth keeping and where each one appears (section headings).
+**Step 3. Read the source.** Read it in full. Note each claim worth keeping and exactly where it appears (the heading it's under), so you can cite that precise place.
 
-**Step 4. Plan the changes and tell the person before writing:**
+**Step 4. Plan the changes and tell the person before writing.** Follow "No representative sampling" in the profile doc: the source names *five* specialised sub-agents doing distinct tasks, so that's five `actor` notes, not one representative example.
 
-| Action | Note | Why |
-|---|---|---|
-| create | `Wiki/Concepts/Transformer.md` | Main subject of the source |
-| create | `Wiki/Concepts/Self-Attention.md` | Core mechanism, reused elsewhere |
-| create | `Wiki/Entities/Ashish Vaswani.md` | Lead author; skip if only named once |
-| update | `Wiki/Topics/Large Language Models.md` | Add a link and one cited sentence |
+| Action | Note | Kind | Why |
+|---|---|---|---|
+| create | `Wiki/Domains/Financial Services Compliance.md` | domain | Grouping note; `topics_kind` needs one |
+| create | `Wiki/Business Capabilities/Know Your Customer (KYC) Validation.md` | business-capability | The generic ability being described |
+| create | `Wiki/Actors/KYC Orchestration Supervisor Agent.md` | actor | Coordinates the sub-agents |
+| create | `Wiki/Actors/Identity Verification Sub-Agent.md` | actor | One of five distinct named sub-agents — not a representative sample |
+| create | `Wiki/Actors/Document Analysis Sub-Agent.md` | actor | A second, separate sub-agent — same reason |
+| create | `Wiki/Requirements/Sub-5-Minute KYC Processing Time.md` | requirement | Explicit stated performance target |
 
-**Step 5. Write the notes** from `_templates/concept-note.md`. For example, `Wiki/Concepts/Self-Attention.md`:
+**Step 5. Write the notes** from `_templates/<kind>-note.md`. For example, `Wiki/Actors/Identity Verification Sub-Agent.md`:
 
 ```markdown
 ---
 tags:
-  - "concept"
+  - "actor"
 topics:
-  - "[[Large Language Models]]"
+  - "[[Financial Services Compliance]]"
 status: seed
-created: 2026-09-25
-updated: 2026-09-25
+created: 2026-09-28
+updated: 2026-09-28
 sources:
-  - "[[2017-06-12-attention-is-all-you-need]]"
+  - "[[2026-09-27-modernizing-kyc-aws-serverless]]"
 source_count: 1
-aliases:
-  - "Scaled dot-product attention"
+aliases: []
+classification_basis: "One of the 'Five Specialized Sub-Agents' explicitly listed as performing a domain-specific task — actor, since it's named as the performer, and its task is separately captured as Identity Verification ([[2026-09-27-modernizing-kyc-aws-serverless#Agentic AI Orchestration Layer|Agentic AI Orchestration Layer]])."
 ---
 
-# Self-Attention
+# Identity Verification Sub-Agent
 
-A layer where each token computes a weighted mix of all tokens in the sequence.
+The AI sub-agent that performs identity verification: validating customer identities against watchlists and sanctions databases.
 
-Each position computes queries, keys and values, and takes a softmax-weighted sum of the values ([[2017-06-12-attention-is-all-you-need#3.2 Attention]]).
+## Explanation
 
-Used as the core layer of the [[Transformer]].
+- Calls third-party verification APIs and uses natural language processing to handle name variations ([[2026-09-27-modernizing-kyc-aws-serverless#Agentic AI Orchestration Layer|Agentic AI Orchestration Layer]]).
+
+## Related
+
+- coordinated by: [[KYC Orchestration Supervisor Agent]]
 ```
+
+Every note needs `classification_basis`: one sentence, grounded in the source, saying why this became this kind and not another.
 
 **Step 6. Build, lint, and mark the source processed.**
 
@@ -71,29 +79,31 @@ python3 scripts/wiki_tool.py source-lint
 **Step 7. Log the change,** then commit if the person asks. The pre-commit hook re-runs the checks.
 
 ```bash
-python3 scripts/wiki_tool.py log --title "ingest | Attention Is All You Need" \
-  --details "Created [[Transformer]], [[Self-Attention]]. Updated [[Large Language Models]]. Skipped author entities (named only in the byline)."
+python3 scripts/wiki_tool.py log --title "ingest | Modernizing KYC with AWS serverless solutions" \
+  --details "Created 6 notes (domain, business-capability, 3 actor, requirement), all status: seed."
 ```
+
+**Step 8. Point to the review queue.** Tell the person: `Wiki/Generated/Review Queue.md` lists every `seed` note with its `classification_basis`, for them to confirm, fix, merge or delete.
 
 ---
 
 ## 2. Answer a question (`llm-wiki-query`)
 
-**Person:** "What's the difference between self-attention and cross-attention?"
+**Person:** "What triggers escalation to a human, and who reviews it?"
 
 1. Search the catalog, not `Raw/`:
    ```bash
-   python3 scripts/wiki_tool.py search-catalog --query "attention"
+   python3 scripts/wiki_tool.py search-catalog --query "escalation"
    ```
-2. Open the matching Wiki notes, e.g. `Self-Attention.md`. There's no `Cross-Attention` note.
-3. Open only the Raw sources those notes cite, to confirm the details.
+2. Open the matching Wiki notes, e.g. `Real-Time KYC Validation Process.md` and `Compliance Specialist.md`. There's no separate `Escalation` note — this vault doesn't have a `gap`-style note for every procedural step, only for stated differences between a baseline and target state.
+3. Open only the Raw sources those notes cite, to confirm the detail.
 4. Answer, citing Wiki notes for navigation and Raw sources for evidence:
 
-   > Self-attention draws queries, keys and values from the same sequence ([[2017-06-12-attention-is-all-you-need#3.2 Attention]]). The Wiki has no note on cross-attention, and the ingested sources only mention it in passing, so I can't give a sourced comparison yet.
+   > Escalation is confidence-based: the Supervisor Agent auto-approves above 95% confidence, requires extra verification between 75–95%, and escalates below 75% to a human reviewer with full context ([[2026-09-27-modernizing-kyc-aws-serverless#Agentic AI Orchestration Layer|Agentic AI Orchestration Layer]]). That reviewer is the Compliance Specialist role — the source doesn't name a specific person, only the responsibility.
    >
-   > Gap: no `Cross-Attention` note. Add a source that covers encoder-decoder attention, and I'll ingest it.
+   > There's no dedicated note for the escalation mechanism itself; it's described inside the process note. If you want it broken out separately, that's an ingest change, not a query.
 
-5. Don't write to `Wiki/` during a query unless the person asks. Point out gaps instead.
+5. Don't write to `Wiki/` during a query unless the person asks. Point out gaps instead of guessing.
 
 ---
 
@@ -109,20 +119,18 @@ python3 scripts/wiki_tool.py source-lint
 Example report:
 
 ```
-ERROR S2  Wiki/Entities/OpenAI.md: source [[2024-05-01-gpt4o-launch]] not found in Raw/Sources/
-ERROR F4  Wiki/Concepts/Embedding.md: source_count is 1 but sources lists 2
-WARN  L3  Wiki/Concepts/Tokenizer.md: no inbound links from Wiki/
-WARN  S7  Raw/Files/2025-01-10-scan.pdf: not referenced by any source note
+ERROR S3  Wiki/Technology Services/AgentCore Identity.md: [[2026-09-27-modernizing-kyc-aws-serverless#Cloud-native KYC solution architecture|...]]: no such heading/block in source
+WARN  L3  Wiki/Physical Technology Components/Amazon S3.md: orphan: no other Wiki note links here
+WARN  F7  Wiki/Constraints/Multi-Jurisdiction Regulatory Compliance.md: summary is 217 characters (max 200)
 ```
 
 What to do with each:
 
 | Finding | Fix |
 |---|---|
-| S2 | Look for the source under a different name. If it's really missing, ask the person. **Don't** create a fake source note. |
-| F4 | Set `source_count: 2` to match `sources`. |
-| L3 | Link it from the relevant topic note, e.g. `[[Large Language Models]]`. |
-| S7 | Ask the person whether to create a source note for the file. |
+| S3 | Copy the heading text exactly from the source, including punctuation (a curly apostrophe is not the same character as a straight one). |
+| L3 | Add a `## Related` link connecting it to another note that gives it context — every note should have at least one, in either direction. |
+| F7 | Shorten the one-sentence summary that follows the `# Heading` to 200 characters or fewer. |
 
 Report what you fixed and what needs a person to decide.
 
@@ -130,16 +138,16 @@ Report what you fixed and what needs a person to decide.
 
 ## 4. Maintain (`llm-wiki-maintain`)
 
-**Person:** "`LLM` and `Large Language Models` look like duplicates."
+**Person:** "A second document also created a `Supervisor Agent` actor note — looks like a duplicate of `KYC Orchestration Supervisor Agent`."
 
-1. Compare both notes: their `sources`, `aliases` and inbound links (`links` in the catalog).
-2. Choose the one to keep (`Large Language Models`).
-3. Move any cited content from the other note into it, keeping each citation.
-4. Merge the `sources` lists, update `source_count`, merge `topics`, and add `LLM` to `aliases`.
-5. Update inbound links from `[[LLM]]` to `[[Large Language Models]]`, then delete `LLM.md`. Deleting a Wiki note is fine; Raw files are never deleted.
+1. Compare both notes: their `sources`, `aliases`, `classification_basis` and inbound links (`links` in the catalog).
+2. Choose the one to keep (`KYC Orchestration Supervisor Agent` — the fuller name, with more inbound links).
+3. Move any uniquely cited content from `Supervisor Agent.md` into it, keeping each citation exactly.
+4. Merge the `sources` lists, update `source_count`, merge `topics`, and add `Supervisor Agent` to `aliases` (it may already be there).
+5. Update inbound links from `[[Supervisor Agent]]` to `[[KYC Orchestration Supervisor Agent]]`, then delete `Supervisor Agent.md`. Deleting a Wiki note is fine; Raw files are never deleted.
 6. Set `updated`, run `build`, `lint` and `source-lint`, and log it:
 
 ```bash
-python3 scripts/wiki_tool.py log --title "maintain | merge LLM → Large Language Models" \
-  --details "Moved 2 cited paragraphs, merged 3 sources, added alias LLM, relinked 4 notes."
+python3 scripts/wiki_tool.py log --title "maintain | merge Supervisor Agent → KYC Orchestration Supervisor Agent" \
+  --details "Moved 1 cited detail, merged 2 sources, added alias, relinked 3 notes."
 ```
