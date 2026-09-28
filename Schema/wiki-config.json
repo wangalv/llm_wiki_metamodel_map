@@ -1,0 +1,545 @@
+{
+  "_comment": "Vault configuration read by scripts/wiki_tool.py. Keys starting with _ are comments. See Schema/command-reference.md#configuration.",
+  "version": 1,
+  "profile": "togaf-core",
+  "kinds": [
+    {
+      "tag": "domain",
+      "folder": "Domains",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": false,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {}
+    },
+    {
+      "tag": "actor",
+      "folder": "Actors",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "assumption",
+      "folder": "Assumptions",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "business-capability",
+      "folder": "Business Capabilities",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "business-service",
+      "folder": "Business Services",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "capability",
+      "folder": "Capabilities",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "constraint",
+      "folder": "Constraints",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "course-of-action",
+      "folder": "Courses of Action",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "data-entity",
+      "folder": "Data Entities",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "function",
+      "folder": "Functions",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "gap",
+      "folder": "Gaps",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "location",
+      "folder": "Locations",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "logical-application-component",
+      "folder": "Logical Application Components",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "logical-technology-component",
+      "folder": "Logical Technology Components",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "organization-unit",
+      "folder": "Organization Units",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "physical-application-component",
+      "folder": "Physical Application Components",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "physical-technology-component",
+      "folder": "Physical Technology Components",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "principle",
+      "folder": "Principles",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "process",
+      "folder": "Processes",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "requirement",
+      "folder": "Requirements",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "role",
+      "folder": "Roles",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "technology-service",
+      "folder": "Technology Services",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "value-stream",
+      "folder": "Value Streams",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    },
+    {
+      "tag": "work-package",
+      "folder": "Work Packages",
+      "requires_sources": true,
+      "summary": true,
+      "orphan_check": true,
+      "name": "title",
+      "index_order": "asc",
+      "fields": {
+        "classification_basis": {
+          "type": "string",
+          "required": true,
+          "description": "One sentence, quoting or closely paraphrasing the source, saying why this note is this type and not another."
+        }
+      }
+    }
+  ],
+  "topics_kind": "domain",
+  "statuses": [
+    "seed",
+    "growing",
+    "stable",
+    "stale"
+  ],
+  "compiled_fields": [
+    "tags",
+    "topics",
+    "status",
+    "created",
+    "updated",
+    "sources",
+    "source_count",
+    "aliases"
+  ],
+  "source_fields": {
+    "Title": {
+      "type": "string",
+      "required": true,
+      "description": "The source's own title"
+    },
+    "Author": {
+      "type": "string",
+      "required": "recommended",
+      "description": "As written in the source; never guessed"
+    },
+    "Reference": {
+      "type": "string",
+      "required": true,
+      "description": "URL, DOI or bibliographic reference"
+    },
+    "ContentType": {
+      "type": "list",
+      "item": "string",
+      "required": "recommended",
+      "template": [
+        "markdown"
+      ],
+      "description": "What the source contains: markdown, pdf, image, …"
+    },
+    "Created": {
+      "type": "date",
+      "required": true,
+      "description": "Date the source was added to the vault"
+    },
+    "Processed": {
+      "type": "bool",
+      "required": true,
+      "description": "true once compiled into Wiki/"
+    },
+    "tags": {
+      "type": "list",
+      "item": "string",
+      "required": true,
+      "template": [
+        "source"
+      ],
+      "description": "Must include source"
+    }
+  },
+  "raw_name_pattern": "^\\d{4}-\\d{2}-\\d{2}-[a-z0-9]+(?:-[a-z0-9]+)*$",
+  "placeholders": [
+    "YYYY-MM-DD",
+    "{{title}}",
+    "[[source-stem"
+  ],
+  "extra_required_dirs": [
+    "Schema",
+    "_templates",
+    "scripts"
+  ],
+  "rules": [
+    {
+      "id": "TM1",
+      "type": "anchor_required",
+      "description": "Every citation points at an exact heading or block, never the whole source — required so a human reviewer can check classification_basis against the source."
+    }
+  ],
+  "generators": [
+    {
+      "id": "catalogue",
+      "type": "catalog_table",
+      "kinds": [
+        "actor",
+        "assumption",
+        "business-capability",
+        "business-service",
+        "capability",
+        "constraint",
+        "course-of-action",
+        "data-entity",
+        "function",
+        "gap",
+        "location",
+        "logical-application-component",
+        "logical-technology-component",
+        "organization-unit",
+        "physical-application-component",
+        "physical-technology-component",
+        "principle",
+        "process",
+        "requirement",
+        "role",
+        "technology-service",
+        "value-stream",
+        "work-package"
+      ],
+      "columns": [
+        "tag",
+        "note",
+        "status",
+        "classification_basis",
+        "sources"
+      ],
+      "output": "Wiki/Generated/Catalogue.md",
+      "description": "One row per note of any type, for browsing everything ingested so far."
+    },
+    {
+      "id": "review-queue",
+      "type": "catalog_table",
+      "kinds": [
+        "actor",
+        "assumption",
+        "business-capability",
+        "business-service",
+        "capability",
+        "constraint",
+        "course-of-action",
+        "data-entity",
+        "function",
+        "gap",
+        "location",
+        "logical-application-component",
+        "logical-technology-component",
+        "organization-unit",
+        "physical-application-component",
+        "physical-technology-component",
+        "principle",
+        "process",
+        "requirement",
+        "role",
+        "technology-service",
+        "value-stream",
+        "work-package"
+      ],
+      "where": {
+        "status": "seed"
+      },
+      "columns": [
+        "tag",
+        "note",
+        "classification_basis",
+        "sources"
+      ],
+      "output": "Wiki/Generated/Review Queue.md",
+      "description": "Notes not yet confirmed by a human reviewer (status: seed)."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+#!/bin/sh
+# Pre-commit checks for the LLM Wiki vault.
+# Installed by scripts/install_hooks.sh (sets git's core.hooksPath to this folder).
+# Bypass in an emergency with: git commit --no-verify
+set -e
+
+VAULT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$VAULT"
+
+if ! command -v python3 >/dev/null 2>&1; then
+    echo "pre-commit: python3 not found; cannot run wiki checks" >&2
+    exit 1
+fi
+
+python3 scripts/wiki_tool.py build
+python3 scripts/wiki_tool.py lint
+python3 scripts/wiki_tool.py source-lint
+python3 scripts/audit_public.py
+
+# build may have regenerated files; they must be part of this commit.
+unstaged="$(git status --porcelain -- Wiki/catalog.jsonl Wiki/index.md 'Wiki/*/* Index.md' | grep '^.[^ ]' || true)"
+if [ -n "$unstaged" ]; then
+    echo "pre-commit: build updated generated files that are not staged:" >&2
+    echo "$unstaged" >&2
+    echo "Review them, 'git add' them, and commit again." >&2
+    exit 1
+fi

@@ -1,0 +1,45 @@
+# --- OS / editor junk ---
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+
+# --- Obsidian: per-device UI state & caches ---
+**/.obsidian/workspace.json
+**/.obsidian/workspace-mobile.json
+**/.obsidian/workspaces.json
+**/.obsidian/cache
+**/.obsidian/graph.json
+**/.trash/
+
+# Plugin settings can hold API keys/tokens (e.g. LLM plugins) — keep code, not data
+**/.obsidian/plugins/*/data.json
+
+# --- Secrets ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+# Secret/credential files by type only. A bare *secret* would also ignore
+# wiki notes such as "Health Secretary.md" (see K4 in Schema/lint-checklist.md).
+secrets/
+*.secret
+*secret*.json
+*secret*.y*ml
+*secret*.txt
+*secret*.env
+*credentials*.json
+*credentials*.y*ml
+*credentials*.txt
+credentials
+
+# --- Python / Node tooling (for later LLM scripts) ---
+__pycache__/
+*.pyc
+.venv/
+venv/
+node_modules/
+.cache/
+*.log
