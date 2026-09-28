@@ -4,6 +4,16 @@ An Obsidian vault that an LLM agent turns into a cited knowledge base: it reads 
 
 **Why this exists.** Architecture knowledge usually lives scattered across design docs, PDFs, Confluence pages and Slack threads — hard to search, and even harder to trace a claim back to where it came from. This vault compiles that material into notes structured by the TOGAF 9.2 Content Metamodel, so you can ask "which components depend on this data entity" or "what capabilities does this system provide" and get an answer that links straight back to the exact heading in the source document, not a paraphrase you have to trust. *(TOGAF® is a registered trademark of The Open Group; see the trademark notice at the bottom of this README.)*
 
+![Architecture diagram: source documents are extracted by an LLM into TOGAF-typed metamodel objects with source provenance, producing a structured, linked, traceable wiki](docs/architecture-diagram.webp)
+
+*The "Relationships" shown above are illustrative — in this vault, notes link to each other with plain, untyped Obsidian wikilinks, not labelled relationship types. See "How connections are made" in `scripts/profiles/togaf-core/togaf-core-profile.md`.*
+
+A worked example of the same idea, end to end:
+
+![Worked example: a source document's "Payments Platform" and "Customer Account" sections are extracted into TOGAF-typed notes with source citations](docs/worked-example-diagram.webp)
+
+*Same caveat as above: the "Provides / Uses / Depends on / Deployed on" rows are illustrative. A real compiled note here would have a `## Related` section with plain wikilinks (e.g. `[[Bank Gateway]]`), not separate typed fields — see `Schema/frontmatter-schema.md` for what a real note actually looks like.*
+
 Three rules hold throughout (the full rules are in `AGENTS.md`):
 - `Raw/` is source material. The agent reads it but never rewrites it.
 - Compiled knowledge goes only in `Wiki/`.
