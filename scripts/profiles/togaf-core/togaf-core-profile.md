@@ -1,8 +1,5 @@
-# Profile: togaf-core (draft — no sample document yet)
+# Profile: togaf-core 
 
-> **Addendum, added when generating `wiki-config.json`:** the engine requires every profile to have one kind that the built-in `topics` field can point to (`topics_kind`). None of the 23 TOGAF types below fit that role, so a 24th kind, **`domain`**, was added — a plain grouping note (e.g. "KYC & Compliance", "Payments"), not a TOGAF metamodel entity. It has no `classification_basis` field, since it isn't classified against the metamodel. Every note's `topics` field should link to one or more `domain` notes.
-
-> **This draft has not been checked against a real document.** Every "example" below is illustrative, written from general TOGAF 9.2 knowledge, not quoted from your own architecture documents the way the legislation spec quoted the Act. Before this can drive `wiki-config.json`, run it against one real Word doc and correct anything that doesn't match how your documents actually talk. Treat every "example" cell as a guess to be overwritten.
 
 ## The purpose of this profile
 
