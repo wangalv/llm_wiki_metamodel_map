@@ -1,4 +1,4 @@
-# LLM Wiki Metamodel Mapper
+# LLM Architecture Wiki Builder
 
 An Obsidian vault that an LLM agent turns into a cited knowledge base: it reads organisational technical documents (architecture descriptions, design documents, data dictionaries) and compiles them into notes structured by the TOGAF 9.2 Content Metamodel's 23 core objects, plus a `domain` grouping kind the engine itself requires.
 
